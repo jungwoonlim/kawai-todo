@@ -21,8 +21,9 @@ export default class ToDo extends Component {
     isCompleted: PropTypes.bool.isRequired,
     deleteToDo: PropTypes.func.isRequired,
     id: PropTypes.string.isRequired,
-    uncompletedToDo: PropTypes.func.isRequired,
-    completedToDo: PropTypes.func.isRequired
+    uncompleteToDo: PropTypes.func.isRequired,
+    completeToDo: PropTypes.func.isRequired,
+    updateToDo: PropTypes.func.isRequired
   };
   render() {
     const { isEditing, toDoValue } = this.state;
@@ -88,11 +89,11 @@ export default class ToDo extends Component {
     );
   }
   _toggleComplete = () => {
-    const { isCompleted, uncompletedToDo, completedToDo, id } = this.props;
+    const { isCompleted, uncompleteToDo, completeToDo, id } = this.props;
     if (isCompleted) {
-      uncompletedToDo(id);
+      uncompleteToDo(id);
     } else {
-      completedToDo(id);
+      completeToDo(id);
     }
   };
   _startEditing = () => {
@@ -101,6 +102,9 @@ export default class ToDo extends Component {
     });
   };
   _finishEditing = () => {
+    const { toDoValue } = this.state;
+    const { id, updateToDo } = this.props;
+    updateToDo(id, toDoValue);
     this.setState({
       isEditing: false
     });
